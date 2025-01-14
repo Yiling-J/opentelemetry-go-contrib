@@ -1,8 +1,6 @@
 name: build_and_test
 on:
   push:
-    branches:
-      - main
   pull_request:
 env:
   # path to where test results will be saved
