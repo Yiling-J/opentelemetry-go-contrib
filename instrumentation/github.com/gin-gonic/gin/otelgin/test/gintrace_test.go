@@ -9,10 +9,10 @@ import (
 	"bytes"
 	"errors"
 	"html/template"
-	"io/fs"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strconv"
 	"testing"
 
@@ -469,5 +469,5 @@ func TestTemporaryFormFileRemove(t *testing.T) {
 	assert.Len(t, sr.Ended(), 1)
 	require.Equal(t, http.StatusOK, w.Code)
 	_, err = fileHeader.Open()
-	require.ErrorIs(t, err, fs.ErrNotExist)
+	require.True(t, os.IsNotExist(err))
 }
