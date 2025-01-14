@@ -444,10 +444,7 @@ func TestTemporaryFormFileRemove(t *testing.T) {
 	var fileHeader *multipart.FileHeader
 	router.POST("/upload", func(c *gin.Context) {
 		_, err := c.FormFile("file")
-		if err != nil {
-			_ = c.AbortWithError(http.StatusInternalServerError, err)
-			return
-		}
+		require.NoError(t, err)
 		fileHeader = c.Request.MultipartForm.File["file"][0]
 		_, err = fileHeader.Open()
 		require.NoError(t, err)
