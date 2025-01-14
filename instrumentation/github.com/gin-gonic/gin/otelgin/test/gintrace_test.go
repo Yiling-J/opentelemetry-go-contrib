@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"runtime"
 	"strconv"
 	"testing"
 
@@ -436,6 +437,10 @@ func TestWithGinFilter(t *testing.T) {
 }
 
 func TestTemporaryFormFileRemove(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		// Windows sometimes refuses to remove a file that was just closed.
+		t.Skip("https://go.dev/issue/25965")
+	}
 	sr := tracetest.NewSpanRecorder()
 	provider := sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(sr))
 
